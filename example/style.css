@@ -1,0 +1,38 @@
+.cm-markdoc-hidden {
+  display: none;
+}
+
+.cm-markdoc-bullet * {
+  display: none;
+}
+
+.cm-markdoc-bullet::after {
+  display: inline !important;
+  color: darkgray;
+  content: '•';
+}
+
+.cm-markdoc-renderBlock {
+  font-family: sans-serif;
+}
+
+.cm-markdoc-renderBlock table {
+  border-collapse: collapse;
+  margin-left: 5px;
+}
+
+.cm-markdoc-renderBlock th,
+.cm-markdoc-renderBlock td {
+  border: 1px solid lightgray;
+  padding: 5px 10px;
+}
+
+.cm-markdoc-renderBlock blockquote {
+  border-left: 3px solid lightgray;
+  padding-left: 10px;
+  margin: 0 0 0 15px;
+}
+
+.cm-markdoc-renderBlock blockquote p {
+  margin: 0;
+}
