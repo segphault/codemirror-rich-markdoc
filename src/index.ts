@@ -13,14 +13,14 @@ export type MarkdocPluginConfig = { lezer?: any, markdoc: Config };
 
 export default function (config: MarkdocPluginConfig) {
   const mergedConfig = {
-    ...config.lezer ?? [],
-    extensions: [tagParser, ...config.lezer?.extensions ?? []]
+    ...config?.lezer ?? [],
+    extensions: [tagParser, ...config?.lezer?.extensions ?? []]
   };
 
   return ViewPlugin.fromClass(RichEditPlugin, {
     decorations: v => v.decorations,
     provide: v => [
-      renderBlock(config.markdoc),
+      renderBlock(config?.markdoc),
       syntaxHighlighting(highlightStyle),
       markdown(mergedConfig)
     ],
