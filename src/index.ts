@@ -11,11 +11,15 @@ import type { Config } from '@markdoc/markdoc';
 
 export type MarkdocPluginConfig = { lezer?: any, markdoc: Config };
 
-export default function (config: MarkdocPluginConfig) {
-  const mergedConfig = {
+function mergeConfig (config: MarkdocPluginConfig) {
+  return {
     ...config?.lezer ?? [],
     extensions: [tagParser, ...config?.lezer?.extensions ?? []]
-  };
+  }
+}
+
+export default function (config: MarkdocPluginConfig) {
+  const mergedConfig = mergeConfig(config);
 
   return ViewPlugin.fromClass(RichEditPlugin, {
     decorations: v => v.decorations,
