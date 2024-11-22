@@ -18,15 +18,13 @@ function mergeConfig (config: MarkdocPluginConfig) {
   }
 }
 
-export default function (config: MarkdocPluginConfig) {
-  const mergedConfig = mergeConfig(config);
-
+function makePlugin (config: MarkdocPluginConfig, ls: LanguageSupport) {
   return ViewPlugin.fromClass(RichEditPlugin, {
     decorations: v => v.decorations,
     provide: v => [
       renderBlock(config?.markdoc),
       syntaxHighlighting(highlightStyle),
-      markdown(mergedConfig)
+      ls
     ],
     eventHandlers: {
       mousedown({ target }, view) {
@@ -35,4 +33,10 @@ export default function (config: MarkdocPluginConfig) {
       }
     }
   });
+}
+
+export default function (config: MarkdocPluginConfig) {
+  const mergedConfig = mergeConfig(config);
+
+  return makePlugin(config, markdown(mergedConfig));
 }
