@@ -1,5 +1,5 @@
 import { ViewPlugin } from '@codemirror/view';
-import { syntaxHighlighting } from '@codemirror/language';
+import { syntaxHighlighting, LanguageSupport } from '@codemirror/language';
 import { markdown } from '@codemirror/lang-markdown';
 
 import tagParser from './tagParser';
@@ -10,6 +10,16 @@ import renderBlock from './renderBlock';
 import type { Config } from '@markdoc/markdoc';
 
 export type MarkdocPluginConfig = { lezer?: any, markdoc: Config };
+
+export
+function richdown (config: MarkdocPluginConfig) {
+  const mergedConfig = mergeConfig(config);
+  const plugin = makePlugin(config);
+  const ls = markdown(mergedConfig);
+  ls.language.name = 'richdown';
+
+  return new LanguageSupport(ls, plugin);
+}
 
 function mergeConfig (config: MarkdocPluginConfig) {
   return {
@@ -24,7 +34,7 @@ function makePlugin (config: MarkdocPluginConfig, ls: LanguageSupport) {
     provide: v => [
       renderBlock(config?.markdoc),
       syntaxHighlighting(highlightStyle),
-      ls
+      ...(ls ? [ls] : [])
     ],
     eventHandlers: {
       mousedown({ target }, view) {
